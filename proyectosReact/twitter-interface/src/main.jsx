@@ -5,7 +5,7 @@ import "./index.css"
 import Usuarios from './components/Usuarios'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <TwitterCard />
-  </StrictMode>,
+  <>
+    <TwitterCard button={false}/>
+  </>,
 )

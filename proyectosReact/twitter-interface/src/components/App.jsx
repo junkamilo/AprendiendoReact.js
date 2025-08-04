@@ -1,9 +1,12 @@
 import "../index.css";
 import Usuarios from "./Usuarios";
 
-const TwitterCard  = () => {
+const TwitterCard  = ({button}) => {
+    console.log(button);
+    
     //Obtenemos Array de los usuarios
     const datosUsuarios = Usuarios();
+    
     
 return (
     <section className="App">

@@ -20,6 +20,11 @@ const Usuarios = () =>{
         NombreUsuario: "@Camila",
         avatar: "https://unavatar.io/sindresorhus@gmail.com"
     },
+    {
+        Nombre: "Maury",
+        NombreUsuario: "@maury",
+        avatar: "https://unavatar.io/sindresorhus@gmail.com"
+    },
     ];
 
     return Datos;
