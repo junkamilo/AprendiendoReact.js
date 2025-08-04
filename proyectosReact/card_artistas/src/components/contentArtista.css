@@ -1,0 +1,9 @@
+.Content-cardArtistas{
+    border: 1px solid #ccc;
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas pasen a otra fila */
+    gap: 20px;        /* Espacio entre tarjetas */
+    padding: 20px;
+    width: 100%;
+    height: auto; 
+}
