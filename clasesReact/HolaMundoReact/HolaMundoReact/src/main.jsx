@@ -1,14 +1,13 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client'
-import Button from './button';
+import TwiterFollowCard from './TwiterFollowCard';
+import "/src/style.css";
 
 
-createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Button text="boton 1"/>
-    <Button text="boton 2"/>
-    <Button text="boton 3"/>
-  </React.StrictMode>
+createRoot(document.getElementById('app')).render(
+  <>
+  <TwiterFollowCard></TwiterFollowCard>
+  </>
 );
  

@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #15202b;
+  color: white;
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+}
+
+.twitter-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #192734;
+  padding: 12px 16px;
+  border-radius: 16px;
+  width: 400px;
+  border: 1px solid #2f3336;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+}
+
+.twitter-card:hover {
+  background-color: #22303c;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #1da1f2;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.username {
+  color: #8899a6;
+  font-size: 14px;
+}
+
+.card-aside {
+  display: flex;
+  align-items: center;
+}
+.App {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
