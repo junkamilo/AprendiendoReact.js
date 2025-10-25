@@ -5,10 +5,13 @@ import './style.css'
 //import './bases/03-objet-literal'
 //import './bases/04-arrays'
 //import './bases/05-functions'
+//import './bases/06-obj-destructuring'
+//import './bases/07-array-destructuring'
+import './bases/03.ejercicio'
 
 //Ejercicios
 //import './bases/01.ejercicio'
-import './bases/02.ejercicio'
+//import './bases/02.ejercicio'
 
 
 
