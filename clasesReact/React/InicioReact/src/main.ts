@@ -7,7 +7,8 @@ import './style.css'
 //import './bases/05-functions'
 
 //Ejercicios
-import './bases/01.ejercicio'
+//import './bases/01.ejercicio'
+import './bases/02.ejercicio'
 
 
 
