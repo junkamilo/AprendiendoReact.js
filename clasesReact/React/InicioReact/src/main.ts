@@ -13,7 +13,10 @@ import './style.css'
 //import { getHeroesByOwner } from './bases/04.ejercicio';
 //import { heroes, Owner } from './bases/data/heroes.data';
 //import './bases/09-promises'
-import './bases/05.ejercicio'
+//import './bases/05.ejercicio'
+//import './bases/10-fetch-api'
+import './bases/11-asyn-await'
+
 //Ejercicios
 //import './bases/01.ejercicio'
 //import './bases/02.ejercicio'
