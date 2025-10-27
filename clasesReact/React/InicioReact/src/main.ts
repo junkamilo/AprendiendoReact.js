@@ -7,14 +7,19 @@ import './style.css'
 //import './bases/05-functions'
 //import './bases/06-obj-destructuring'
 //import './bases/07-array-destructuring'
-import './bases/03.ejercicio'
+//import './bases/03.ejercicio'
+//import './bases/08-import-export'
+//import './bases/04.ejercicio'
+//import { getHeroesByOwner } from './bases/04.ejercicio';
+//import { heroes, Owner } from './bases/data/heroes.data';
+import './bases/09-promises'
 
 //Ejercicios
 //import './bases/01.ejercicio'
 //import './bases/02.ejercicio'
 
 
-
+//onsole.log(getHeroesByOwner(heroes, Owner.Marvel));
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
