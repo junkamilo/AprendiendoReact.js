@@ -12,8 +12,8 @@ import './style.css'
 //import './bases/04.ejercicio'
 //import { getHeroesByOwner } from './bases/04.ejercicio';
 //import { heroes, Owner } from './bases/data/heroes.data';
-import './bases/09-promises'
-
+//import './bases/09-promises'
+import './bases/05.ejercicio'
 //Ejercicios
 //import './bases/01.ejercicio'
 //import './bases/02.ejercicio'
