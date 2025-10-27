@@ -1,0 +1,28 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    background-color: #e0dddd;
+}
+.Card-main{
+    border: 1px solid black;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+.ContentLogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+}
+.Logo{
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+.contentMain{
+    padding: 0 1rem 0 1rem;
+    text-align: justify;
+}
