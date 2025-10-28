@@ -9,7 +9,7 @@ body {
   min-height: 100dvh;
 }
 /*Diseño de la card*/
-.content-card {
+.content-card , .item-agregado{
   border: 1px solid black;
   width: 30%;
   height: auto;

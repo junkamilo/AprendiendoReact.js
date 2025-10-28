@@ -13,8 +13,8 @@ export const ContentAgregar = ({ artistas }: Props) => {
 
       {artistas.map(({ id, foto, description }) => (
         <div key={id} className="item-agregado">
-          <div className="foto">{foto}</div>
-          <p>{description}</p>
+          <div className="content-logo">{foto}</div>
+          <p className="content-description">{description}</p>
         </div>
       ))}
     </div>
