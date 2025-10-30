@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client'
 //import { CardShopping } from './shopping-card/CardShoping'
 //import { ContentArtista } from './AgregarYEliminar/contentArtista';
 //import { DataArtista } from './AgregarYEliminar/dataArtista';
+import { MyAwesomeApp } from './MyAwesomeApp';
 
 
 //createRoot es una función en React que crea un punto de entrada para renderizar componentes de React en un nodo del DOM del navegador.
@@ -16,5 +17,6 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/**<ContentArtista/> */}
     {/** <ContentAgregar artistas={DataArtista}/>*/}
+    <MyAwesomeApp />
   </StrictMode>
 )
