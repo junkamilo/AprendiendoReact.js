@@ -8,18 +8,26 @@ import { CustomSearch } from "./shared/components/CustomSearch"
 
 export const GifsApp = () => {
     const [previuesTerms, setpreviuesTerms] = useState(['Dragon ball z']);
+
+    const handleTermClicked = (term:string) =>{
+        console.log(term);
+    }
+
+    const handleSearch = (query:string) =>{
+        console.log(query);
+    }
   return (
     <>
     {/**Header */}
     <CustomHeader title="Buscador De Gifs" description="Descubre y comparte tu gifs favorito"/>
     
     {/**Search */}
-    <CustomSearch/>
+    <CustomSearch onQuery={(query:string) => handleSearch(query) }/>
 
     {/**Busquedas previas */}
-    <PreviouSearches searches={previuesTerms} />
+    <PreviouSearches searches={previuesTerms} onLabelclick={handleTermClicked} title='Comparte tu gifs favorito'/>
     {/**Gifs */}
     <GifsContainer gifs={mockGifs}/>
-    </>
+    </> 
   )
 }
