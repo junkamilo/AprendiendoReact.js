@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PreviouSearches } from "../../gifs/components/PreviouSearches";
+//import { PreviouSearches } from "../../gifs/components/PreviouSearches";
 
 interface Props {
     placeholder?: string;
