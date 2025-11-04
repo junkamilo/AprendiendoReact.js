@@ -1,0 +1,241 @@
+/* --- 1. CONFIGURACIÓN GLOBAL Y VARIABLES --- */
+:root {
+  /* Paleta de colores "Dark Mode" inspirada en música */
+  --bg-dark: #121212;
+  --bg-mid: #181818;
+  --bg-light: #282828;
+  --bg-glass: rgba(40, 40, 40, 0.5); /* Base para el Glassmorphism */
+  --bg-glass-hover: rgba(55, 55, 55, 0.7);
+
+  /* Color de acento vibrante (ej. verde Spotify o azul eléctrico) */
+  --accent-primary: #1db954;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+
+  /* Estilos modernos */
+  --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --border-radius: 12px;
+  --font-main: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+/* Keyframe para el fondo ambiental animado */
+@keyframes subtleGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  min-height: 100dvh;
+  font-family: var(--font-main);
+  color: var(--text-primary);
+
+  /* Fondo ambiental: un gradiente oscuro y sutil que se mueve */
+  background: linear-gradient(
+    -45deg,
+    #0f0c13,
+    var(--bg-dark),
+    #100f1c,
+    var(--bg-dark)
+  );
+  background-size: 400% 400%;
+  animation: subtleGradient 25s ease infinite;
+
+  /* Layout principal de la página usando CSS Grid */
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header, Main (flexible), Footer */
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+}
+
+/* Estilos de scrollbar (opcional, pero mejora el look) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-light);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* --- 2. HEADER Y FOOTER --- */
+
+.contentHeader {
+  grid-area: header;
+  width: 100%;
+  padding: clamp(1rem, 4vw, 2rem); /* Padding fluido */
+
+  /* Efecto Glassmorphism para el header "flotante" */
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  /* Asegura que esté sobre el contenido si hay scroll */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.contentFooter {
+  grid-area: footer;
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+/* --- 3. CONTENIDO PRINCIPAL Y GRID DE TARJETAS --- */
+
+.contentMain {
+  grid-area: main;
+  width: 100%;
+  /* Padding fluido para los lados y arriba/abajo */
+  padding: clamp(1rem, 4vw, 2.5rem);
+  overflow-y: auto; /* Permite scroll solo en el main */
+}
+
+.CardMusicaContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(1rem, 3vw, 1.8rem);
+}
+.CardMusicaContainer > h2 {
+  grid-column: 1 / -1;
+  font-size: clamp(1.6rem, 4vw, 2.2rem); /* Título grande y fluido */
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem; /* Espacio entre el título y las tarjetas de abajo */
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--bg-light); /* Un separador sutil */
+}
+
+/* Damos espacio entre las diferentes secciones (Artistas, Géneros, etc.) */
+.CardMusicaContainer + .CardMusicaContainer {
+  margin-top: 3rem;
+}
+/* --- 4. DISEÑO DE LA TARJETA INDIVIDUAL --- */
+
+/* Animación de entrada para las tarjetas */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.CardMusica {
+  /* Efecto Glassmorphism en la tarjeta */
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-soft);
+
+  padding: 1.25rem;
+  text-align: center;
+  cursor: pointer;
+
+  /* Transiciones suaves para el efecto hover */
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  /* Aplicamos la animación de entrada */
+  animation: fadeIn 0.5s ease-out forwards;
+  /* (Opcional: para escalonar la animación si se cargan dinámicamente) */
+  /* animation-delay: calc(var(--item-index, 0) * 50ms); */
+}
+
+/* Efecto Hover: La tarjeta se eleva y se "ilumina".
+  Usamos filtros para un efecto más avanzado.
+*/
+.CardMusica:hover {
+  transform: translateY(-8px);
+  background: var(--bg-glass-hover);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+  filter: brightness(1.1); /* Hace que brille sutilmente */
+}
+
+.Logo {
+  /* Convertimos el div en un placeholder de carátula */
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Mantiene la proporción 1:1 (cuadrado) */
+  background: var(--bg-light);
+  border-radius: 8px; /* Un radio interior más pequeño */
+  margin-bottom: 1rem;
+
+  /* Centramos el texto "Logo" (del TS) */
+  display: grid;
+  place-items: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+/* Placeholder visual de música (emoji) */
+.Logo::before {
+  content: "🎵";
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.05);
+  position: absolute;
+  transform: rotate(-15deg) scale(1.5);
+  transition: all 0.4s ease;
+}
+
+.CardMusica:hover .Logo {
+  transform: scale(1.05); /* El logo crece un poco */
+}
+.CardMusica:hover .Logo::before {
+  color: rgba(255, 255, 255, 0.1);
+  transform: rotate(0deg) scale(1.8); /* La nota se anima */
+}
+
+.Name {
+  font-size: clamp(1rem, 2.5vw, 1.1rem); /* Tipografía fluida */
+  font-weight: 600;
+  color: var(--text-primary);
+
+  /* Para nombres largos... */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition: color 0.3s ease;
+}
+
+.CardMusica:hover .Name {
+  color: var(--accent-primary); /* Resaltamos el nombre al hacer hover */
+}

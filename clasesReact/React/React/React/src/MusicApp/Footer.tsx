@@ -1,6 +1,6 @@
 export const Footer = () =>{
     return(
-        <footer>
+        <footer className="contentFooter">
             <h3>Music App</h3>
         </footer>
     );
