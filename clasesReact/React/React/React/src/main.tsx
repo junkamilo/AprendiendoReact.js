@@ -12,6 +12,7 @@ import { Header } from './MusicApp/Header';
 import { MainMusic } from './MusicApp/mainMusic';
 import { Footer } from './MusicApp/Footer';
 import './MusicApp/StyleMusic.css'
+import { CounterApp } from './CounterApp';
 
 
 //createRoot es una función en React que crea un punto de entrada para renderizar componentes de React en un nodo del DOM del navegador.
@@ -24,8 +25,9 @@ createRoot(document.getElementById('root')!).render(
     {/**<MyAwesomeApp />*/}
 
     {/**Version del App music */}
-    <Header/>
+    {/*<Header/>
     <MainMusic/>
-    <Footer/>
+    <Footer/>*/}
+    <CounterApp/>
   </StrictMode>
 )
