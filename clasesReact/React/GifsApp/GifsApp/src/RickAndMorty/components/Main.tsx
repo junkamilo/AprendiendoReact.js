@@ -1,9 +1,9 @@
-import { dataRickyAndMorty } from "../data-ricky-and-morty"
+import { CustomTarget } from "./CustomTarget";
 
-export const Main = async() => {
-    const data = await dataRickyAndMorty();
-    
+export const Main = () => {
   return (
-    <main className="contentMain"></main>
+    <main className="contentMain">
+      <CustomTarget />
+    </main>
   )
 }
