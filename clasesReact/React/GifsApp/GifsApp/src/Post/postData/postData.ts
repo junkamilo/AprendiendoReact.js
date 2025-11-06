@@ -18,3 +18,19 @@ export const getPostData = async (): Promise<Post[]> => {
         throw error;
     }
 };
+
+export const getImg = async () => {
+    try {
+        const response = await fetch('https://unavatar.io/sindresorhus@gmail.com');
+        if (!response.ok) throw new Error("No se encontro el icono");
+        
+        //response.blob() → interpreta la respuesta como un archivo (imagen, PDF, audio, lo que sea).
+        const blob = await response.blob();
+        const imgUrl = URL.createObjectURL(blob);
+
+        return imgUrl;
+    } catch (error) {
+        console.error(error);
+    }
+};
+

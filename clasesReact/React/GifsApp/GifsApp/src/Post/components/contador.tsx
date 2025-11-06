@@ -4,6 +4,12 @@ interface propsContador {
 
 export const Contador = ({contador}:propsContador) => {
   return (
-    <p>{contador}</p>
+    <p className="conteoLikes">{contador}</p>
+  )
+}
+
+export const ConteCompartir = ({contador}:propsContador)=>{
+  return(
+    <p className="conteotCompartir">{contador}</p>
   )
 }

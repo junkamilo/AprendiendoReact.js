@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 //import { GifsApp } from './GifsApp'
 //import { getPostData } from './Post/postData/postData';
 import { Postmain } from './Post/Postmain';
+import './Post/index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
