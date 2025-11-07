@@ -7,7 +7,7 @@ import { CustomHeader } from "./shared/components/CustomHeader"
 import { CustomSearch } from "./shared/components/CustomSearch"
 
 export const GifsApp = () => {
-    const [previuesTerms, setpreviuesTerms] = useState(['Dragon ball z']);
+    const [previuesTerms ] = useState(['Dragon ball z']);
 
     const handleTermClicked = (term:string) =>{
         console.log(term);

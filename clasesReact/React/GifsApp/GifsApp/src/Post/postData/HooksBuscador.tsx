@@ -1,87 +1,101 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Post } from "./postData";
 
 // Hook encargado de manejar búsqueda, filtrado y términos previos.
 // Recibe la lista completa de posts para trabajar sobre ella.
 export const HooksBuscador = (posts: Post[]) => {
 
-    // Valor actual que el usuario escribe en el input
+    // Valor actual escrito por el usuario
     const [searchTerm, setSearchTerm] = useState("");
 
-    // Historial de términos buscados anteriormente
+    // Historial de términos buscados
     const [previousTerms, setPreviousTerms] = useState<string[]>([]);
 
-    // Lista filtrada que se mostrará en pantalla
+    // Lista que se muestra en pantalla
     const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
 
+    // Caché de resultados: evita recalcular búsquedas repetidas
+    const postCache = useRef<Record<string, Post[]>>({});
 
-    // Cuando llegan los posts desde la API, inicializa el listado filtrado
+
+    // Cuando llegan los posts iniciales, se muestra toda la lista
     useEffect(() => {
-        setFilteredPosts(posts); // Muestra todas las cards al inicio
+        setFilteredPosts(posts);
     }, [posts]);
 
 
-    // Maneja los cambios en el input mientras el usuario escribe
+    // Maneja lo que el usuario escribe en tiempo real
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.toLowerCase().trim();
-
-        // Actualiza el texto que hay en el input
         setSearchTerm(value);
 
-        // Si el input queda vacío, restauramos toda la lista
+        // Input vacío → mostrar todo
         if (value.length === 0) {
             setFilteredPosts(posts);
             return;
         }
 
-        // Filtrado directo según el contenido del título
+        // Si ya está en caché, úsalo
+        if (postCache.current[value]) {
+            setFilteredPosts(postCache.current[value]);
+            return;
+        }
+
+        // Filtrar normalmente
         const results = posts.filter(post =>
             post.title.toLowerCase().includes(value)
         );
 
-        // Actualizamos los resultados filtrados
+        // Guardar en caché
+        postCache.current[value] = results;
+
+        // Actualizar resultados en pantalla
         setFilteredPosts(results);
     };
 
 
-    // Ejecuta la búsqueda cuando presionan Enter o dan click en el botón
-    const handleBuscar = () => {
-        const term = searchTerm.trim().toLowerCase();
+    // Ejecuta la búsqueda manual (click en botón o Enter)
+    const handleBuscar = (query?: string) => {
+        if (typeof query !== "string") {
+            query = undefined;
+        }
+        const term = (query ?? searchTerm).trim().toLowerCase();
 
-        // Si el término está vacío, no ejecutamos la búsqueda
-        if (!term) return;
+        if (!term) return; // vacío → no buscar
 
-        // Filtra los posts según el término de búsqueda
-        const results = posts.filter(post =>
-            post.title.toLowerCase().includes(term)
-        );
+        // Si está en caché → úsalo
+        if (postCache.current[term]) {
+            setFilteredPosts(postCache.current[term]);
+        } else {
+            // Filtrar y guardar en caché
+            const results = posts.filter(post =>
+                post.title.toLowerCase().includes(term)
+            );
 
-        // Actualizamos los resultados
-        setFilteredPosts(results);
+            postCache.current[term] = results;
+            setFilteredPosts(results);
+        }
 
-        // Agrega el término al historial evitando duplicados
+        // Actualizar historial sin duplicados
         setPreviousTerms(prev => {
-            if (prev.includes(term)) return prev; // si ya existe no lo agrega
-            return [term, ...prev].slice(0, 7); // máximo 7 elementos
+            if (prev.includes(term)) return prev;
+            return [term, ...prev].slice(0, 7);
         });
     };
 
 
-    // Se ejecuta cuando el usuario hace clic en un término previo
+    // Cuando el usuario da clic a un término previo
     const handleTermClicked = (term: string) => {
-        // Coloca el término en el input
         setSearchTerm(term);
-
-        // Ejecuta la búsqueda con ese mismo término
-        handleBuscar();
+        handleBuscar(term);
     };
 
 
-    // Detecta cuando el usuario presiona Enter dentro del input
+    // Detecta Enter dentro del input
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            event.preventDefault(); // evita recargar la página
-            handleBuscar();        // ejecuta la búsqueda
+            event.preventDefault();
+            handleBuscar();
         }
     };
 
@@ -96,6 +110,7 @@ export const HooksBuscador = (posts: Post[]) => {
         handleKeyDown
     };
 };
+
 
 
 

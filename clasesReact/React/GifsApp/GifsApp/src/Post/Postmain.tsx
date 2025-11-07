@@ -1,11 +1,12 @@
 import { CardPost } from './components/cardPost';
 import { Header } from './components/Header';
 import { HooksBuscador } from './postData/HooksBuscador';
-import { HooksData } from './postData/HooksData';
+import { HooksData, HooksIcon } from './postData/HooksData';
 
 
 export const Postmain = () => {
     const { posts } = HooksData();
+    const { icon  } = HooksIcon(); 
 
     const buscador = HooksBuscador(posts);
 
@@ -19,7 +20,7 @@ export const Postmain = () => {
                 handleTermClicked={buscador.handleTermClicked}
                 handleKeyDown={buscador.handleKeyDown}
             />
-            <CardPost posts={buscador.filteredPosts} />
+            <CardPost posts={buscador.filteredPosts} icon={icon}/>
         </div>
     );
 };

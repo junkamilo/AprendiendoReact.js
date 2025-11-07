@@ -2,20 +2,23 @@ import { HooksContador } from "../postData/HooksContador";
 import type { Post } from "../postData/postData";
 import { ButtonLike, ButtonDislike, ButtonCompartir } from "./buttons";
 import { Contador, ConteCompartir } from './contador';
-import { Logo } from "./Logo";
 
 interface PropsSinglePostCard {
     post: Post;
+    icon: string | undefined;
 }
 
 
-export const SinglePostCard = ({ post }: PropsSinglePostCard) => {
+export const SinglePostCard = ({ post, icon }: PropsSinglePostCard) => {
     const { first, conteoCompartir, contadorLike, contadorDislike, contarCompartir } = HooksContador();
 
     return (
         <div className="contentCard">
             <div className="card-header">
-                <Logo />
+                <div className="contentLogo">
+                    <img src={icon} alt="" className="logoImg" />
+                </div>
+
                 <div className="contentTitulo">
                     <h3>{post.title}</h3>
                 </div>
@@ -27,7 +30,6 @@ export const SinglePostCard = ({ post }: PropsSinglePostCard) => {
                 </div>
             </div>
 
-            {/* Pasamos las funciones como props */}
             <div className="card-footer">
                 <div className="card-stats">
                     <Contador contador={first} />
@@ -42,4 +44,5 @@ export const SinglePostCard = ({ post }: PropsSinglePostCard) => {
         </div>
     );
 };
+
 
