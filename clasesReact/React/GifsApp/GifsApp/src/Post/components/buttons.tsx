@@ -1,16 +1,19 @@
 interface propstButton {
     text: string,
-    onClick: () => void;
+    onClick?: () => void;
 }
 
-export const ButtonLike = ({ text,onClick  }: propstButton) => {
+export const ButtonLike = ({ text, onClick }: propstButton) => {
     return <button onClick={onClick} className="buttonLike">{text}</button>;
 };
 
-export const ButtonDislike = ({text,onClick}:propstButton)=>{
+export const ButtonDislike = ({ text, onClick }: propstButton) => {
     return <button onClick={onClick} className="buttonDislike">{text}</button>;
 }
 
-export const ButtonCompartir = ({text,onClick}:propstButton)=>{
+export const ButtonCompartir = ({ text, onClick }: propstButton) => {
     return <button onClick={onClick} className="buttonCompartir">{text}</button>;
+}
+export const ButtonBuscar = ({ text, onClick }: propstButton) => {
+    return <button className="buttonBuscar" onClick={onClick}>{text}</button>
 }

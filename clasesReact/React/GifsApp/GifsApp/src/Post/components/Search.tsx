@@ -1,7 +1,10 @@
-import { HooksBuscador } from "../postData/HooksBuscador";
+interface PropsSearch {
+    searchTerm: string;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    hanledKeyDown:(event: React.KeyboardEvent<HTMLInputElement>) => void;
+}
 
-export const Search = () => {
-    const {searchTerm,handleChange} = HooksBuscador();
+export const Search = ({ searchTerm, handleChange,hanledKeyDown }: PropsSearch) => {
     return (
         <input
             type="search"
@@ -9,6 +12,8 @@ export const Search = () => {
             className="search-input"
             onChange={handleChange}
             value={searchTerm}
+            onKeyDown={hanledKeyDown}
         />
-    )
-}
+    );
+};
+

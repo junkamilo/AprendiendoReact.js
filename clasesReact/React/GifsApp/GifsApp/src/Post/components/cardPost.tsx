@@ -1,9 +1,11 @@
-import { HooksData } from "../postData/HooksData";
+import type { Post } from "../postData/postData";
 import { SinglePostCard } from "./SingletoCard";
 
-export const CardPost = () => {
-    const { posts } = HooksData();
+interface CardPostProps {
+    posts: Post[];
+}
 
+export const CardPost = ({ posts }:CardPostProps) => {
     return (
         <div className="contentCards">
             {posts.map(post => (
