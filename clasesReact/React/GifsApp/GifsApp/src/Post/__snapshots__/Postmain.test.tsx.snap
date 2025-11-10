@@ -1,0 +1,286 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Post Main App > Verficando componente importante 1`] = `
+<div>
+  <div
+    class="app-container"
+  >
+    <header
+      class="main-header"
+    >
+      <div
+        class="header-content-wrapper"
+      >
+        <div
+          class="header-left"
+        >
+          <a
+            class="site-logo"
+            href="/"
+          >
+            Publicaciones
+          </a>
+          <div
+            class="search-bar"
+          >
+            <span
+              class="search-icon-wrapper"
+            >
+              <svg
+                aria-hidden="true"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                viewBox="0 0 24 24"
+                width="20"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="8"
+                />
+                <line
+                  x1="21"
+                  x2="16.65"
+                  y1="21"
+                  y2="16.65"
+                />
+              </svg>
+            </span>
+            <input
+              class="search-input"
+              placeholder="Buscar en publicaciones..."
+              type="search"
+              value=""
+            />
+            <button
+              class="buttonBuscar"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+        <div
+          class="previous-searches"
+        >
+          <h2>
+            Busquedas previas
+          </h2>
+          <ul
+            class="previous-searches-list"
+          />
+        </div>
+        <div
+          class="header-right"
+        >
+          <div
+            class="contentLogo profile-logo"
+          >
+            <img
+              alt="Logo de perfil"
+              class="logoImg"
+              src="https://placehold.co/100x100/DDEBFF/0052CC?text=User&font=inter"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <div
+      class="contentCards"
+    />
+  </div>
+</div>
+`;
+
+exports[`Postmain App > El componente se renderiza sin fallar 1`] = `
+<div>
+  <div
+    class="app-container"
+  >
+    <header
+      class="main-header"
+    >
+      <div
+        class="header-content-wrapper"
+      >
+        <div
+          class="header-left"
+        >
+          <a
+            class="site-logo"
+            href="/"
+          >
+            Publicaciones
+          </a>
+          <div
+            class="search-bar"
+          >
+            <span
+              class="search-icon-wrapper"
+            >
+              <svg
+                aria-hidden="true"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                viewBox="0 0 24 24"
+                width="20"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="8"
+                />
+                <line
+                  x1="21"
+                  x2="16.65"
+                  y1="21"
+                  y2="16.65"
+                />
+              </svg>
+            </span>
+            <input
+              class="search-input"
+              placeholder="Buscar en publicaciones..."
+              type="search"
+              value=""
+            />
+            <button
+              class="buttonBuscar"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+        <div
+          class="previous-searches"
+        >
+          <h2>
+            Busquedas previas
+          </h2>
+          <ul
+            class="previous-searches-list"
+          />
+        </div>
+        <div
+          class="header-right"
+        >
+          <div
+            class="contentLogo profile-logo"
+          >
+            <img
+              alt="Logo de perfil"
+              class="logoImg"
+              src="https://placehold.co/100x100/DDEBFF/0052CC?text=User&font=inter"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <div
+      class="contentCards"
+    />
+  </div>
+</div>
+`;
+
+exports[`Postmain App > Snapshot del componente completo 1`] = `
+<div>
+  <div
+    class="app-container"
+  >
+    <header
+      class="main-header"
+    >
+      <div
+        class="header-content-wrapper"
+      >
+        <div
+          class="header-left"
+        >
+          <a
+            class="site-logo"
+            href="/"
+          >
+            Publicaciones
+          </a>
+          <div
+            class="search-bar"
+          >
+            <span
+              class="search-icon-wrapper"
+            >
+              <svg
+                aria-hidden="true"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                viewBox="0 0 24 24"
+                width="20"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="8"
+                />
+                <line
+                  x1="21"
+                  x2="16.65"
+                  y1="21"
+                  y2="16.65"
+                />
+              </svg>
+            </span>
+            <input
+              class="search-input"
+              placeholder="Buscar en publicaciones..."
+              type="search"
+              value=""
+            />
+            <button
+              class="buttonBuscar"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+        <div
+          class="previous-searches"
+        >
+          <h2>
+            Busquedas previas
+          </h2>
+          <ul
+            class="previous-searches-list"
+          />
+        </div>
+        <div
+          class="header-right"
+        >
+          <div
+            class="contentLogo profile-logo"
+          >
+            <img
+              alt="Logo de perfil"
+              class="logoImg"
+              src="https://placehold.co/100x100/DDEBFF/0052CC?text=User&font=inter"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <div
+      class="contentCards"
+    />
+  </div>
+</div>
+`;
