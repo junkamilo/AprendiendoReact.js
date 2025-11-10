@@ -1,0 +1,62 @@
+[
+  {
+    "idMusic": 1,
+    "nameMusic": "Bohemian Rhapsody",
+    "nameArtista": "Queen",
+    "reproductionMusic": "1000M"
+  },
+  {
+    "idMusic": 2,
+    "nameMusic": "Billie Jean",
+    "nameArtista": "Michael Jackson",
+    "reproductionMusic": "100K"
+  },
+  {
+    "idMusic": 3,
+    "nameMusic": "Smells Like Teen Spirit",
+    "nameArtista": "Nirvana",
+    "reproductionMusic": "10M"
+  },
+  {
+    "idMusic": 4,
+    "nameMusic": "Shape of You",
+    "nameArtista": "Ed Sheeran",
+    "reproductionMusic": "50K"
+  },
+  {
+    "idMusic": 5,
+    "nameMusic": "Rolling in the Deep",
+    "nameArtista": "Adele",
+    "reproductionMusic": "40K"
+  },
+  {
+    "idMusic": 6,
+    "nameMusic": "Hotel California",
+    "nameArtista": "Eagles",
+    "reproductionMusic": "100M"
+  },
+  {
+    "idMusic": 7,
+    "nameMusic": "Blinding Lights",
+    "nameArtista": "The Weeknd",
+    "reproductionMusic": "50M"
+  },
+  {
+    "idMusic": 8,
+    "nameMusic": "Imagine",
+    "nameArtista": "John Lennon",
+    "reproductionMusic": "50K"
+  },
+  {
+    "idMusic": 9,
+    "nameMusic": "Beat It",
+    "nameArtista": "Michael Jackson",
+    "reproductionMusic": "60K"
+  },
+  {
+    "idMusic": 10,
+    "nameMusic": "Take On Me",
+    "nameArtista": "A-ha",
+    "reproductionMusic": "10K"
+  }
+]
