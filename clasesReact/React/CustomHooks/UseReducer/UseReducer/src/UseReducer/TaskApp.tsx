@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useEffect, useReducer, useState } from 'react';
 import { Plus, Trash2, Check } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -7,54 +6,41 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-interface Todo {
-    id: number;
-    text: string;
-    completed: boolean;
-}
+import { getTasksInitialState, tasksReducer } from './Reducer/tasksReducer';
 
 export const TasksApp = () => {
-    const [todos, setTodos] = useState<Todo[]>([]);
     const [inputValue, setInputValue] = useState('');
+    const [state, dispatch] = useReducer(tasksReducer, getTasksInitialState());
 
+    useEffect(()=>{
+        localStorage.setItem('tasks-state',JSON.stringify(state));
+    },[state])
+
+    // 🟢 Añadir tarea
     const addTodo = () => {
-        if(inputValue.length === 0) return;
-        const newTodo:Todo = {
-            id:Date.now(),
-            text:inputValue.trim(),
-            completed:false
-        }
-
-        setTodos([...todos,newTodo]);
-
+        if (inputValue.trim().length === 0) return;
+        dispatch({ type: 'ADD_TODO', payload: inputValue });
         setInputValue('');
     };
 
+    // 🟡 Cambiar estado completado
     const toggleTodo = (id: number) => {
-        const updateTodos = todos.map(todo =>{
-            if(todo.id === id){
-                return{...todo,completed:!todo.completed}
-            }
-            return todo;
-        });
-        setTodos(updateTodos);
-
+        dispatch({ type: 'TOGGLE_TODO', payload: id });
     };
 
+    // 🔴 Eliminar tarea
     const deleteTodo = (id: number) => {
-        const updateTodos = todos.filter(todo => todo.id !== id);
-        setTodos(updateTodos);
-
+        dispatch({ type: 'DELETE_TODO', payload: id });
     };
 
+    // ⌨️ Añadir con Enter
     const handleKeyPress = (e: React.KeyboardEvent) => {
-        if(e.key === 'Enter'){
-            addTodo();
-        }
+        if (e.key === 'Enter') addTodo();
     };
 
-    const completedCount = todos.filter((todo) => todo.completed).length;
-    const totalCount = todos.length;
+    // 📊 Extraer datos del estado global
+    const { todos, completed, length: totalCount, pending } = state;
+    const completedPercentage = totalCount > 0 ? Math.round((completed / totalCount) * 100) : 0;
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
@@ -68,6 +54,7 @@ export const TasksApp = () => {
                     </p>
                 </div>
 
+                {/* Formulario */}
                 <Card className="mb-6 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
                     <CardContent className="p-6">
                         <div className="flex gap-2">
@@ -88,6 +75,7 @@ export const TasksApp = () => {
                     </CardContent>
                 </Card>
 
+                {/* Barra de progreso */}
                 {totalCount > 0 && (
                     <Card className="mb-6 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
                         <CardHeader className="pb-3">
@@ -98,20 +86,21 @@ export const TasksApp = () => {
                         <CardContent className="pt-0">
                             <div className="flex items-center justify-between text-sm text-slate-600 mb-2">
                                 <span>
-                                    {completedCount} de {totalCount} completadas
+                                    {completed} de {totalCount} completadas
                                 </span>
-                                <span>{Math.round((completedCount / totalCount) * 100)}%</span>
+                                <span>{completedPercentage}%</span>
                             </div>
                             <div className="w-full bg-slate-200 rounded-full h-2">
                                 <div
                                     className="bg-gradient-to-r from-green-400 to-green-500 h-2 rounded-full transition-all duration-300 ease-out"
-                                    style={{ width: `${(completedCount / totalCount) * 100}%` }}
+                                    style={{ width: `${completedPercentage}%` }}
                                 />
                             </div>
                         </CardContent>
                     </Card>
                 )}
 
+                {/* Lista de tareas */}
                 <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
                     <CardHeader>
                         <CardTitle className="text-lg font-semibold text-slate-700">
@@ -135,8 +124,8 @@ export const TasksApp = () => {
                                     <div
                                         key={todo.id}
                                         className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 ${todo.completed
-                                            ? 'bg-slate-50 border-slate-200'
-                                            : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
+                                                ? 'bg-slate-50 border-slate-200'
+                                                : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
                                             }`}
                                     >
                                         <Checkbox
@@ -146,8 +135,8 @@ export const TasksApp = () => {
                                         />
                                         <span
                                             className={`flex-1 transition-all duration-200 ${todo.completed
-                                                ? 'text-slate-500 line-through'
-                                                : 'text-slate-800'
+                                                    ? 'text-slate-500 line-through'
+                                                    : 'text-slate-800'
                                                 }`}
                                         >
                                             {todo.text}
