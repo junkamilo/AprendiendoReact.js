@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useOptimistic, useState, useTransition } from 'react';
 
 interface Comment {
   id: number;
@@ -6,21 +6,60 @@ interface Comment {
   optimistic?: boolean;
 }
 
+let lastId = 2;
+
 export const InstagromApp = () => {
+
+  const [isPending, startTranssition] = useTransition();
+
   const [comments, setComments] = useState<Comment[]>([
     { id: 1, text: '¡Gran foto!' },
     { id: 2, text: 'Me encanta 🧡' },
   ]);
 
-  const handleAddComment = async (formData:FormData) => {
+  // --- OPTIMISTIC ---
+  const [optimisticComments, addOptimisticComment] = useOptimistic<Comment[], string>(
+    comments,
+    (currentComments, newCommentText) => {
+      lastId++;
+      return [
+        ...currentComments,
+        {
+          id: lastId,
+          text: newCommentText, // ahora sí es string
+          optimistic: true,
+        },
+      ];
+    }
+  );
 
-    const message = formData.get('post-message');
-    console.log('Nuevo comentario' , message);
+
+  const handleAddComment = async (formData: FormData) => {
+    const message = formData.get("post-message") as string;
+
+    // 1️⃣ Agrega comentario optimista
+    addOptimisticComment(message);
+
+    startTranssition(async() => {
+      // 2️⃣ Simula petición al servidor
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      // 3️⃣ Servidor responde → ahora sí actualizamos la fuente real
+      setComments((prev) => [
+        ...prev,
+        {
+          id: new Date().getTime(),
+          text: message,
+        },
+      ]);
+    });
+
+
   };
 
   return (
     <div className="bg-slate-700 h-screen flex flex-col items-center justify-center">
-      {/* Post de ejemplo */}
+      {/* Post */}
       <div className="flex flex-col items-center justify-center bg-gray-300 rounded-t-3xl p-4 w-[500px]">
         <img
           src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=500&h=500&fit=crop"
@@ -32,22 +71,23 @@ export const InstagromApp = () => {
         </p>
       </div>
 
-      {/* Comentarios */}
+      {/* Comentarios → 🔥 ahora con optimisticComments */}
       <ul className="flex flex-col items-start justify-center bg-gray-300 w-[500px] p-4">
-        {comments.map((comment) => (
+        {optimisticComments.map((comment) => (
           <li key={comment.id} className="flex items-center gap-2 mb-2">
             <div className="bg-blue-500 rounded-full w-10 h-10 flex items-center justify-center">
               <span className="text-white text-center">A</span>
             </div>
             <p className="text-black">{comment.text}</p>
+
             {comment.optimistic && (
-              <span className="text-gray-500 text-sm">enviando... </span>
+              <span className="text-gray-500 text-sm">enviando...</span>
             )}
           </li>
         ))}
       </ul>
 
-      {/* Formulario de comentarios */}
+      {/* Formulario */}
       <form
         action={handleAddComment}
         className="flex flex-col items-center justify-center bg-gray-300 w-[500px] rounded-b-3xl p-4"
@@ -61,8 +101,8 @@ export const InstagromApp = () => {
         />
         <button
           type="submit"
-          disabled={false}
           className="bg-blue-500 text-white p-2 rounded-md w-full"
+          disabled={isPending}
         >
           Enviar
         </button>
