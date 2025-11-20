@@ -1,45 +1,38 @@
 "use client"
 
-import { Heart } from "lucide-react"
+import { Heart, Mic, Music, Sparkles, Users } from "lucide-react"
 import { CustomJumbotron } from "@/components/custom/CustomJumbotron"
 import { ArtistasStats } from "@/Artistas/components/ArtistasStats"
 import { ArtistasGrid } from "@/Artistas/components/ArtistasGrid"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs"
-import { getHeroesArtistasByPage } from "@/Artistas/actions/get-heroes-artistas-by-page.action"
-import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router"
 import { useMemo } from "react"
-import { getSummary } from "@/Artistas/actions/get-sumary.action"
+import { useArtistasSummary } from "@/Artistas/Hooks/useArtistasSummary"
+import { usePaginatedHero } from "@/Artistas/Hooks/usePaginatedHero"
 
 
 export const HomePage = () => {
 
+  const triggerStyles = "flex-1 gap-2 rounded-full px-6 py-3 text-sm font-bold text-slate-600 transition-all duration-200 hover:bg-white/50 hover:text-slate-900 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-md data-[state=active]:ring-1 data-[state=active]:ring-black/5";
+
+  // --- LÓGICA ORIGINAL (INTACTA) ---
   const [searchParams, setsearchParams] = useSearchParams();
 
   const activeTab = searchParams.get('tab') ?? 'all';
   const page = searchParams.get('page') ?? '1';
   const limit = searchParams.get('limit') ?? '6';
+  const category = searchParams.get('category') ?? 'all';
 
   const selecdTab = useMemo(() => {
     const validTab = ['all', 'favorites', 'musica', 'artistas'];
     return validTab.includes(activeTab) ? activeTab : 'all';
   }, [activeTab]);
 
-  // Lógica existente (intacta)
-
-  const { data: heroesArtistas } = useQuery({
-    queryKey: ['artistas',{page,limit}],
-    queryFn: () => getHeroesArtistasByPage(+page, +limit),
-    staleTime: 1000 * 60 * 5
-  });
-
-      const {data: summary} = useQuery({
-          queryKey:['summary-information'],
-          queryFn: () => getSummary(),
-          staleTime: 1000 * 60 * 5
-      });
+  // Custom Hooks
+  const { data: heroesArtistas } = usePaginatedHero(+page, +limit, category);
+  const { data: summary } = useArtistasSummary();
 
   const filteredHeroes = useMemo(() => {
     if (!heroesArtistas?.heroes) return [];
@@ -56,101 +49,152 @@ export const HomePage = () => {
     }
   }, [heroesArtistas, selecdTab]);
 
+  // --- RENDERIZADO CON NUEVO DISEÑO VISUAL ---
   return (
-    <>
+    <div className="space-y-10 pb-12">
 
+      {/* 1. SECCIÓN HERO: Diseño de tarjeta unificada con cristal */}
+      <section className="relative overflow-hidden rounded-3xl border border-white/40 bg-white/30 p-8 shadow-2xl shadow-indigo-500/10 backdrop-blur-md transition-all hover:bg-white/40">
+        {/* Decoración de fondo sutil */}
+        <div className="absolute -right-10 -top-10 h-64 w-64 rounded-full bg-purple-400/20 blur-3xl" />
 
-      {/* Sección Superior */}
-      <section className="space-y-6">
-        <CustomJumbotron
-          title="Universo de los Artistas"
-          description="Descubre y explora tus Artistas favoritos"
-        />
-        <CustomBreadcrumbs currentPage="Todos los artistas" />
-        <ArtistasStats />
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-center">
+          <div className="space-y-4">
+            {/* Breadcrumbs estilizados */}
+            <div className="inline-flex items-center rounded-full bg-white/60 px-3 py-1 text-xs font-medium text-slate-600 backdrop-blur-sm">
+              <Sparkles className="mr-2 h-3 w-3 text-purple-500" />
+              <CustomBreadcrumbs currentPage="Explorar" />
+            </div>
+
+            <CustomJumbotron
+              title="Universo de los Artistas"
+              description="Descubre y explora tus Artistas favoritos en una experiencia inmersiva."
+            />
+          </div>
+
+          {/* Stats flotando a la derecha o abajo */}
+          <div className="rounded-2xl bg-white/50 p-6 shadow-sm ring-1 ring-black/5 backdrop-blur-sm">
+            <ArtistasStats />
+          </div>
+        </div>
       </section>
 
-      {/* Sección de Navegación (Tabs) */}
-      <section>
-        <Tabs value={selecdTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-muted/50 p-1 gap-2 text-slate-600">
 
-            <TabsTrigger
-              onClick={() => setsearchParams((prev) => {
-                prev.set('tab', 'all');
-                return prev;
-              })}
-              value="all"
-              className="flex items-center justify-center data-[state=active]:text-black font-medium"
-            >
-              All Characters ({summary?.totalHeroes})
-            </TabsTrigger>
+      {/* 2. SECCIÓN DE NAVEGACIÓN Y CONTENIDO */}
+      <section className="space-y-8">
+        <Tabs value={selecdTab} className="w-full space-y-8">
 
-            <TabsTrigger
-              onClick={() => setsearchParams((prev) => {
-                prev.set('tab', 'favorites');
-                return prev;
-              })}
-              value="favorites"
-              className="flex items-center justify-center gap-2 data-[state=active]:text-black font-medium"
-            >
-              <Heart className="h-4 w-4" />
-              Favorites (3)
-            </TabsTrigger>
+          {/* TABS LIST: Aumenté la opacidad del fondo (bg-white/60) para que el texto se lea mejor */}
+          <div className="flex justify-center">
+            <TabsList className="inline-flex h-auto w-full max-w-4xl items-center justify-center rounded-full border border-white/50 bg-white/60 p-1.5 shadow-lg shadow-purple-900/5 backdrop-blur-2xl">
 
-            <TabsTrigger
-              onClick={() => setsearchParams((prev) => {
-                prev.set('tab', 'musica');
-                return prev;
-              })}
-              value="musica"
-              className="flex items-center justify-center data-[state=active]:text-black font-medium"
-            >
-              musica ({summary?.heroCount})
-            </TabsTrigger>
+              {/* Tab: All */}
+              <TabsTrigger
+                onClick={() => setsearchParams((prev) => {
+                  prev.set('tab', 'all');
+                  prev.set('category', 'all');
+                  prev.set('page', '1');
+                  return prev;
+                })}
+                value="all"
+                className={triggerStyles} // <--- Usando la constante corregida
+              >
+                <Users className="h-4 w-4" />
+                <span className="hidden sm:inline">Todos</span>
+                <span className="ml-1 rounded-md bg-slate-200/50 px-1.5 py-0.5 text-xs font-extrabold text-slate-700 group-data-[state=active]:bg-slate-900 group-data-[state=active]:text-white">
+                  {summary?.totalHeroes}
+                </span>
+              </TabsTrigger>
 
-            <TabsTrigger
-              onClick={() => setsearchParams((prev) => {
-                prev.set('tab', 'artistas');
-                return prev;
-              })}
-              value="artistas"
-              className="flex items-center justify-center data-[state=active]:text-black font-medium"
-            >
-              artistas ({summary?.heroCount})
-            </TabsTrigger>
-          </TabsList>
+              {/* Tab: Favoritos */}
+              <TabsTrigger
+                onClick={() => setsearchParams((prev) => {
+                  prev.set('tab', 'favorites');
+                  return prev;
+                })}
+                value="favorites"
+                className={triggerStyles} // <--- Usando la constante corregida
+              >
+                {/* Agregué clases de color al icono para que resalte más */}
+                <Heart className="h-4 w-4 group-hover:text-red-500 group-data-[state=active]:fill-red-500 group-data-[state=active]:text-red-600" />
+                <span className="hidden sm:inline">Favoritos</span>
+                <span className="ml-1 text-xs opacity-70 font-semibold">(3)</span>
+              </TabsTrigger>
 
-          {/* Contenedores de Contenido */}
-          <div className="mt-8 min-h-[300px]">
+              {/* Tab: Música */}
+              <TabsTrigger
+                onClick={() => setsearchParams((prev) => {
+                  prev.set('tab', 'musica');
+                  return prev;
+                })}
+                value="musica"
+                className={triggerStyles} // <--- Usando la constante corregida
+              >
+                <Music className="h-4 w-4 group-hover:text-purple-500 group-data-[state=active]:text-purple-600" />
+                <span className="hidden sm:inline">Música</span>
+                <span className="ml-1 text-xs opacity-70 font-semibold">({summary?.heroCount})</span>
+              </TabsTrigger>
 
-            <TabsContent value="all" className="space-y-4">
-              {/* Forcé el color negro en los títulos */}
-              <h2 className="text-2xl font-bold text-black">Todos los Personajes</h2>
-              <ArtistasGrid artitas={filteredHeroes} />
-            </TabsContent>
+              {/* Tab: Artistas */}
+              <TabsTrigger
+                onClick={() => setsearchParams((prev) => {
+                  prev.set('tab', 'artistas');
+                  prev.set('category', 'artistas');
+                  prev.set('page', '1');
+                  return prev;
+                })}
+                value="artistas"
+                className={triggerStyles} // <--- Usando la constante corregida
+              >
+                <Mic className="h-4 w-4 group-hover:text-blue-500 group-data-[state=active]:text-blue-600" />
+                <span className="hidden sm:inline">Artistas</span>
+                <span className="ml-1 text-xs opacity-70 font-semibold">({summary?.heroCount})</span>
+              </TabsTrigger>
 
-            <TabsContent value="favorites" className="space-y-4">
-              <h2 className="text-2xl font-bold text-black">Tus Favoritos</h2>
-              <ArtistasGrid artitas={filteredHeroes} />
-            </TabsContent>
+            </TabsList>
+          </div>
 
-            <TabsContent value="artistas" className="space-y-4">
-              <h2 className="text-2xl font-bold text-black">Artistas</h2>
-              <ArtistasGrid artitas={filteredHeroes} />
-            </TabsContent>
+          {/* CONTENIDO */}
+          <div className="min-h-[300px]">
+            {['all', 'favorites', 'artistas', 'musica'].map((val) => (
+              <TabsContent
+                key={val}
+                value={val}
+                className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500"
+              >
+                <div className="flex items-center justify-between px-2">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-slate-900"> {/* Texto sólido más legible */}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600">
+                      {val === 'all' && 'Todos los Personajes'}
+                      {val === 'favorites' && 'Tus Favoritos'}
+                      {val === 'artistas' && 'Directorio de Artistas'}
+                      {val === 'musica' && 'Catálogo Musical'}
+                    </span>
+                  </h2>
+                  <span className="text-sm font-medium text-slate-500 italic">
+                    Mostrando resultados
+                  </span>
+                </div>
 
-            <TabsContent value="musica" className="space-y-4">
-              <h2 className="text-2xl font-bold text-black">Música</h2>
-              <ArtistasGrid artitas={filteredHeroes} />
-            </TabsContent>
-
+                {/* Fondo del grid más opaco para contrastar con las cards de artistas */}
+                <div className="rounded-2xl border border-white/60 bg-white/40 p-6 shadow-sm backdrop-blur-md">
+                  <ArtistasGrid artitas={filteredHeroes} />
+                </div>
+              </TabsContent>
+            ))}
           </div>
 
         </Tabs>
       </section>
-      <CustomPagination totalPage={heroesArtistas?.pages ?? 0} />
-    </>
+
+      {/* 3. PAGINACIÓN */}
+      <div className="flex justify-center pt-4">
+        <div className="rounded-2xl bg-white/50 p-2 backdrop-blur-md">
+          <CustomPagination totalPage={heroesArtistas?.pages ?? 0} />
+        </div>
+      </div>
+
+    </div>
   )
 }
 
