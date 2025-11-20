@@ -8,11 +8,24 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs"
 import { useState } from "react"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs"
+import { getHeroesArtistasByPage } from "@/Artistas/actions/get-heroes-artistas-by-page.action"
+import { useQuery } from "@tanstack/react-query"
 
 
 export const HomePage = () => {
   // Lógica existente (intacta)
   const [active, setActive] = useState<'all' | 'favorites' | 'artistas' | 'musica'>('all')
+
+  const { data:heroesArtistas } = useQuery({
+    queryKey:['artistas'],
+    queryFn:()=> getHeroesArtistasByPage(),
+    staleTime:1000 * 60 * 5
+  });
+
+  const dataArtistas = heroesArtistas;
+  dataArtistas?.heroes.forEach((e)=>{
+    console.log(e);
+  })
 
   return (
     <>

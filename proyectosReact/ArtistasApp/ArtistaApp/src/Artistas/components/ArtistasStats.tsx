@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { Trophy} from "lucide-react"
 import { HeroStatCard } from "./HeroStatCard"
-import { SearchControls } from "../pages/search/ui/SearchControls"
 
 export const ArtistasStats = () => {
     return (
