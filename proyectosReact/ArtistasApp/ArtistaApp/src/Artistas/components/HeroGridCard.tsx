@@ -3,56 +3,63 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Progress } from "@radix-ui/react-progress"
 import { Brain, Eye, Gauge, Heart, Shield, Zap } from "lucide-react"
+import type { Hero } from "../types/artistas-interfaces"
+import { useNavigate } from "react-router"
 
-interface Props {
-    indicador: string;
-    universe: string;
-    name: string;
-    genero: string;
-    description: string;
-    musica: string;
-    premios: string;
-    nacimiento: string;
+interface StatProps {
+    label: string;
+    value: number;
+    icon: React.ReactNode;
 }
 
-export const HeroGridCard = ({
-    indicador,
-    universe,
-    name,
-    genero,
-    description,
-    musica,
-    premios,
-    nacimiento
-}: Props) => {
+interface Props {
+    arts: Hero;
+}
+
+export const HeroGridCard = ({ arts }: Props) => {
+
+    const navigate = useNavigate();
+
+    const handleClick = ()=>{
+        navigate(`/artistas/${arts.slug}`);
+    }
+
+    const {
+        name,
+        image,
+        universe,
+        description,
+        powers,
+        strength,
+        intelligence,
+        speed,
+        durability,
+        team
+    } = arts;
+
     return (
         <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-white to-gray-50">
-            <div className="relative h-64 overflow-hidden">
+
+            {/* IMG */}
+            <div className="relative h-64">
                 <img
-                    src="/placeholder.svg?height=300&width=300"
+                    src={image}
                     alt={name}
-                    className="object-cover transition-all duration-500 group-hover:scale-110"
+                    className="object-cover transition-all duration-500 group-hover:scale-110 absolute top-[-30px] w-full h-[410px]"
+                    onClick={handleClick}
                 />
 
-                {/* Status indicator */}
-                <div className="absolute top-3 left-3 flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-green-500" />
-                    <Badge variant="secondary" className="text-xs bg-white/90 text-gray-700">
-                        {indicador}
-                    </Badge>
-                </div>
-
-                {/* Universe badge (puede ser género, país, etc) */}
+                {/* Universe */}
                 <Badge className="absolute top-3 right-3 text-xs bg-blue-600 text-white">
                     {universe}
                 </Badge>
 
-                {/* Favorite button */}
+                {/* Favorite */}
                 <Button size="sm" variant="ghost" className="absolute bottom-3 right-3 bg-white/90 hover:bg-white">
                     <Heart className="h-4 w-4 fill-red-500 text-red-500" />
                 </Button>
 
-                {/* View details button */}
+                {/* View */}
                 <Button
                     size="sm"
                     variant="ghost"
@@ -62,74 +69,55 @@ export const HeroGridCard = ({
                 </Button>
             </div>
 
-            <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
-                    <div className="space-y-1">
-                        <h3 className="font-bold text-lg leading-tight">{name}</h3>
-                        <p className="text-sm text-gray-600">{genero}</p>
-                    </div>
-                    <Badge className="text-xs bg-green-100 text-green-800 border-green-200">Artista</Badge>
-                </div>
-                <Badge variant="outline" className="w-fit text-xs">
-                    {musica}
-                </Badge>
+            {/* BODY */}
+            <CardHeader className="py-3 z-10 bg-gray-100/50 backdrop-blur-sm relative top-1 group-hover:top-[-10px] transition-all duration-300">
+                <h3 className="font-bold text-lg">{name}</h3>
+                <p className="text-sm text-gray-600">{team}</p>
             </CardHeader>
 
             <CardContent className="space-y-4">
+
+                {/* Description */}
                 <p className="text-sm text-gray-600 line-clamp-2">
                     {description}
                 </p>
 
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1">
-                        <div className="flex items-center gap-1">
-                            <Zap className="h-3 w-3 text-orange-500" />
-                            <span className="text-xs font-medium">Popularidad</span>
-                        </div>
-                        <Progress value={90} className="h-2" />
-                    </div>
 
-                    <div className="space-y-1">
-                        <div className="flex items-center gap-1">
-                            <Brain className="h-3 w-3 text-blue-500" />
-                            <span className="text-xs font-medium">Creatividad</span>
-                        </div>
-                        <Progress value={85} className="h-2" />
-                    </div>
+                    <Stat label="Strength" value={strength} icon={<Zap className="h-3 w-3 text-orange-500" />} />
+                    <Stat label="Intelligence" value={intelligence} icon={<Brain className="h-3 w-3 text-blue-500" />} />
+                    <Stat label="Speed" value={speed} icon={<Gauge className="h-3 w-3 text-green-500" />} />
+                    <Stat label="Durability" value={durability * 10} icon={<Shield className="h-3 w-3 text-purple-500" />} />
 
-                    <div className="space-y-1">
-                        <div className="flex items-center gap-1">
-                            <Gauge className="h-3 w-3 text-green-500" />
-                            <span className="text-xs font-medium">Éxitos</span>
-                        </div>
-                        <Progress value={80} className="h-2" />
-                    </div>
-
-                    <div className="space-y-1">
-                        <div className="flex items-center gap-1">
-                            <Shield className="h-3 w-3 text-purple-500" />
-                            <span className="text-xs font-medium">Trayectoria</span>
-                        </div>
-                        <Progress value={95} className="h-2" />
-                    </div>
                 </div>
 
-                {/* Powers → Premios */}
+                {/* Powers */}
                 <div className="space-y-2">
-                    <h4 className="font-medium text-sm">Premios:</h4>
+                    <h4 className="font-medium text-sm">Poderes</h4>
                     <div className="flex flex-wrap gap-1">
-                        <Badge variant="outline" className="text-xs">
-                            {premios}
-                        </Badge>
+                        {powers.map((p, i) => (
+                            <Badge key={i} variant="outline" className="text-xs">
+                                {p}
+                            </Badge>
+                        ))}
                     </div>
                 </div>
 
-                <div className="text-xs text-gray-500 pt-2 border-t">
-                    Nacimiento: {nacimiento}
-                </div>
             </CardContent>
+
         </Card>
     );
 };
+
+/** COMPONENTE AUXILIAR */
+const Stat = ({ label, value, icon }:StatProps) => (
+    <div className="space-y-1">
+        <div className="flex items-center gap-1">
+            {icon}
+            <span className="text-xs font-medium">{label}</span>
+        </div>
+        <Progress value={value} className="h-2 bg-amber-300" />
+    </div>
+);
 

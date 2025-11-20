@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import { HomePage } from '../Artistas/pages/Home/homePage';
 import { ArtistasPage } from "@/Artistas/pages/Artistas/ArtistasPage";
 // import { SearchPage } from "@/Artistas/pages/search/SearchPage";
@@ -18,13 +18,17 @@ export const router = createBrowserRouter([
                 element: <HomePage />
             },
             {
-                path: 'artistas',
+                path: 'artistas/:idSlug',
                 element: <ArtistasPage />
             },
             {
                 path: 'search',
                 element: <SearchPage />
             },
+            {
+                path:'*',
+                element:<Navigate to="/"/>
+            }
         ]
     },
 

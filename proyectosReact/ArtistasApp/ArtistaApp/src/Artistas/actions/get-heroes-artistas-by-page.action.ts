@@ -3,14 +3,29 @@ import type { ArtistasResponse } from "../types/get-artistas.response";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const getHeroesArtistasByPage = async (): Promise<ArtistasResponse>=>{
-    const {data} = await heroArtistas.get<ArtistasResponse>(`/`);
+export const getHeroesArtistasByPage = async (
+    page: number,
+    limit: number = 6
+): Promise<ArtistasResponse> => {
+    if(isNaN(page)){
+        page = 1;
+    }
+    if(isNaN(limit)){
+        page = 6;
+    }
 
-    const artistas = data.heroes.map(artista =>({
+    const { data } = await heroArtistas.get<ArtistasResponse>(`/`, {
+        params: {
+            limit: limit,
+            offset: (page - 1) * limit
+        },
+    });
+
+    const artistas = data.heroes.map(artista => ({
         ...artista,
-        image: `${ BASE_URL }/images/${artista.image}`
+        image: `${BASE_URL}/images/${artista.image}`
     }))
-    return{
+    return {
         ...data,
         heroes: artistas,
     }
