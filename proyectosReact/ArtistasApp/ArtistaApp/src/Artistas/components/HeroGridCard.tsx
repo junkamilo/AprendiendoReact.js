@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button"
 import { Activity, Brain, Heart, PlayCircle, Shield, Zap } from "lucide-react"
 import type { Hero } from "../types/artistas-interfaces"
 import { useNavigate } from "react-router"
+import { use } from "react"
+import { FavoritesArtistContext } from "../context/favoritesArtistContext"
 
 
 interface Props {
@@ -10,8 +12,8 @@ interface Props {
 }
 
 export const HeroGridCard = ({ arts }: Props) => {
-
     const navigate = useNavigate();
+    const { isFavorite , toggleFavorite } = use(FavoritesArtistContext);
 
     const handleClick = () => {
         navigate(`/artistas/${arts.slug}`);
@@ -53,7 +55,9 @@ export const HeroGridCard = ({ arts }: Props) => {
             </div>
 
             <div className="absolute top-4 right-4 z-20">
-                <Button size="icon" variant="ghost" className="rounded-full bg-black/20 text-white backdrop-blur-md hover:bg-red-500 hover:text-white transition-colors">
+                <Button size="icon" variant="ghost" className="rounded-full bg-black/20 text-white backdrop-blur-md hover:bg-red-500 hover:text-white transition-colors"
+                onClick={()=> toggleFavorite(arts)}
+                >
                     <Heart className="h-5 w-5" />
                 </Button>
             </div>

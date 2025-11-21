@@ -3,27 +3,47 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils";
 import { ChevronDown, Filter, Plus, Search, SlidersHorizontal, SortAsc, X } from "lucide-react"
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useParams, useSearchParams } from 'react-router';
 
 export const SearchControls = () => {
+
+    // const [ query, setQuery ] = useState('');
+    const [ searchParams, setsearchParams ] =  useSearchParams();
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const hanledKeydowm = (event: React.KeyboardEvent<HTMLInputElement>) =>{
+        if (event.key === 'Enter') {
+         const value = inputRef.current?.value ?? '';
+         setsearchParams(prev =>{
+            prev.set('name',value)
+            return prev;
+         });
+        }
+    }
+
     // Estado para mostrar/ocultar filtros avanzados
     const [showFilters, setShowFilters] = useState(false);
     const [strength, setStrength] = useState(5);
 
     return (
         <div className="flex flex-col gap-6">
-            
+
             {/* 1. BARRA SUPERIOR: Búsqueda + Acciones Rápidas */}
             <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                
+
                 {/* INPUT DE BÚSQUEDA (Hero Element) */}
                 <div className="relative flex-1 group">
                     <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative flex items-center">
                         <Search className="absolute left-4 text-slate-400 h-6 w-6 group-focus-within:text-blue-500 transition-colors" />
-                        <Input 
-                            placeholder="Buscar héroes, villanos, poderes..." 
-                            className="h-14 pl-12 pr-4 rounded-full border-white/40 bg-white/60 text-lg shadow-sm backdrop-blur-xl transition-all focus-visible:ring-2 focus-visible:ring-blue-500/50 hover:bg-white/80 placeholder:text-slate-400 text-slate-900" 
+                        <Input
+                            ref={inputRef}
+                            placeholder="Buscar héroes, villanos, poderes..."
+                            className="h-14 pl-12 pr-4 rounded-full border-white/40 bg-white/60 text-lg shadow-sm backdrop-blur-xl transition-all focus-visible:ring-2 focus-visible:ring-blue-500/50 hover:bg-white/80 placeholder:text-slate-400 text-slate-900"
+                            onKeyDown={hanledKeydowm}
+                            defaultValue={searchParams.get('name') ?? ''}
+                        
                         />
                         {/* Shortcut visual (opcional) */}
                         <div className="absolute right-4 hidden sm:flex gap-1">
@@ -36,8 +56,8 @@ export const SearchControls = () => {
 
                 {/* BOTONES DE ACCIÓN (Diseño Circular/Píldora) */}
                 <div className="flex gap-2 shrink-0 justify-end">
-                    
-                    <Button 
+
+                    <Button
                         variant={showFilters ? "secondary" : "outline"}
                         onClick={() => setShowFilters(!showFilters)}
                         className={cn(
@@ -52,7 +72,7 @@ export const SearchControls = () => {
                     <Button variant="outline" size="icon" className="h-14 w-14 rounded-full border-white/40 bg-white/40 hover:bg-white/60 backdrop-blur-md">
                         <SortAsc className="h-5 w-5 text-slate-600" />
                     </Button>
-                    
+
                     <Button size="icon" className="h-14 w-14 rounded-full bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-purple-900/20">
                         <Plus className="h-6 w-6" />
                     </Button>
@@ -66,7 +86,7 @@ export const SearchControls = () => {
             )}>
                 <div className="min-h-0"> {/* Contenedor interno para la animación grid */}
                     <div className="bg-white/40 border border-white/50 rounded-3xl p-6 backdrop-blur-xl shadow-sm mt-2">
-                        
+
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
                                 <Filter className="h-4 w-4" /> Configuración de Búsqueda
@@ -77,7 +97,7 @@ export const SearchControls = () => {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            
+
                             {/* Selects Estilizados (Simulación visual) */}
                             <CustomSelect label="Universo" placeholder="Marvel, DC..." />
                             <CustomSelect label="Equipo" placeholder="Avengers, JL..." />
@@ -90,10 +110,10 @@ export const SearchControls = () => {
                                     <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-100">{strength}/10</Badge>
                                 </div>
                                 <div className="relative h-12 flex items-center">
-                                    <input 
-                                        type="range" 
-                                        min="0" 
-                                        max="10" 
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="10"
                                         step="1"
                                         value={strength}
                                         onChange={(e) => setStrength(parseInt(e.target.value))}
@@ -103,7 +123,7 @@ export const SearchControls = () => {
                             </div>
 
                         </div>
-                        
+
                         {/* Etiquetas Activas (Ejemplo) */}
                         <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-slate-200/60">
                             <span className="text-xs font-medium text-slate-400 mr-2 self-center">Activos:</span>
